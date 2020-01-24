@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
+import { Loading } from './styles';
 // import { Container } from './styles';
 
 export default function Repository({ match }) {
-  const [repository, setRepository] = {};
-  const [issues, setIssues] = [];
+  const [repository, setRepository] = useState({});
+  const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,6 +28,10 @@ export default function Repository({ match }) {
     }
     loadingGithubData();
   }, []);
+
+  if (loading) {
+    return <Loading>Carregando</Loading>;
+  }
 
   return <h1>Repository</h1>;
 }
