@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 import api from '../../services/api';
 
@@ -9,6 +10,20 @@ export default function Main() {
   const [newRepo, setNewRepo] = useState('');
   const [repositories, setRepositories] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  //component did mount, loading data in local storage
+  useEffect(() => {
+    const repositoriesLocalStorage = localStorage.getItem('repos');
+
+    if (repositoriesLocalStorage) {
+      setRepositories(JSON.parse(repositoriesLocalStorage));
+    }
+  }, []);
+
+  //component did update, set data in local storage
+  useEffect(() => {
+    localStorage.setItem('repos', JSON.stringify(repositories));
+  }, [repositories]);
 
   const handleInputChange = e => {
     setNewRepo(e.target.value);
@@ -57,7 +72,9 @@ export default function Main() {
         {repositories.map(repository => (
           <li key={repository.name}>
             <span>{repository.name}</span>
-            <a href="#">Detalhes</a>
+            <Link to={`/repository/${encodeURIComponent(repository.name)}`}>
+              Detalhes
+            </Link>
           </li>
         ))}
       </List>
