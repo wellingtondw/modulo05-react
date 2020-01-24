@@ -4,14 +4,15 @@ import { Link } from 'react-router-dom';
 
 import api from '../../services/api';
 
-import { Container, Form, SubmitButton, List } from './styles';
+import { Form, SubmitButton, List } from './styles';
+import Container from '../../components/container';
 
 export default function Main() {
   const [newRepo, setNewRepo] = useState('');
   const [repositories, setRepositories] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  //component did mount, loading data in local storage
+  // component did mount, loading data in local storage
   useEffect(() => {
     const repositoriesLocalStorage = localStorage.getItem('repos');
 
@@ -20,7 +21,7 @@ export default function Main() {
     }
   }, []);
 
-  //component did update, set data in local storage
+  // component did update, set data in local storage
   useEffect(() => {
     localStorage.setItem('repos', JSON.stringify(repositories));
   }, [repositories]);

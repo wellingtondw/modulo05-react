@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../services/api';
-import { Loading } from './styles';
-// import { Container } from './styles';
+import { Loading, Owner } from './styles';
+import Container from '../../components/container';
 
 export default function Repository({ match }) {
   const [repository, setRepository] = useState({});
@@ -33,5 +34,14 @@ export default function Repository({ match }) {
     return <Loading>Carregando</Loading>;
   }
 
-  return <h1>Repository</h1>;
+  return (
+    <Container>
+      <Owner>
+        <Link to="/">Voltar aos repositórios</Link>
+        <img src={repository.owner.avatar_url} alt={repository.owner.login} />
+        <h1>{repository.name}</h1>
+        <p>{repository.description}</p>
+      </Owner>
+    </Container>
+  );
 }
